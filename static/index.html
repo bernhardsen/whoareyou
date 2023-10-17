@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Guess Who</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+<script>
+
+let listOfCharacters = [];
+
+const addName = () => {
+    const name = document.getElementById("name").value;
+    const gender = document.getElementById("gender").value;
+    listOfCharacters.push({ name, gender });
+    drawCharacters();
+}
+
+const remove = (name) => {
+    listOfCharacters = listOfCharacters.filter((item) => item.name !== name);
+    drawCharacters();
+}
+
+const propsForSuspect = (gender, name) => {
+    document.location.href = "/suspect/" + gender + "/" + name;
+}
+
+const drawCharacters = () => {
+    let html = "";
+    //for (const character in listOfCharacters) {
+    listOfCharacters.forEach((character) => {
+        html += "<div class='card'>"
+            + "<div class='image'>"
+            + "<img src='/suspect/" + character.gender + "/" + character.name + "/image.png' />"
+            + "</div>"
+            + "<div class='content'>"
+            + "<div class='header'>" + character.name + "</div>"
+            + "<div class='description'>"
+            + "<button class='ui red button' onClick='remove(\"" + character.name + "\")'>Remove</button>"
+            + "<button class='ui button' onClick=\"propsForSuspect('" + character.gender + "', '" + character.name + "')\">Properties</button>"
+            + "</div>"
+            + "</div>"
+            + "</div>"
+    });
+    document.getElementById("characters").innerHTML = html;
+}
+
+</script>
+</head>
+<body>
+
+<div article>
+    <div class="main ui container">
+        <div class="ui three column grid">
+            <div class="column">
+                <h3>Name:</h3>
+                <div class="ui input">
+                    <input type="text" size="40" id="name" placeholder="Name..." />
+                </div>
+            </div>
+            <div class="column">
+                <h3>Gender:</h3>
+                <div>
+                    <select class="ui compact selection dropdown" id="gender"><option value="male">Male</option><option value="female">Female</option></select>
+                </div>
+            </div>
+            <div class="column">
+                <br />
+                <button class="ui button" onClick="addName()">Add character</button>
+            </div>
+        </div>
+        <div class="ui cards grid" id="characters">
+            <div>Add some characters</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
